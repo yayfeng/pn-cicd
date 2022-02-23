@@ -36,17 +36,7 @@ Parameters:
 
 
 Resources:
-  CodeArtifactStack:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub 'https://s3.amazonaws.com/${PnCiCdTemplatesBucketName}/ci/infra/code-artifact.yaml'
-      Parameters:
-        CodeArtifactDomainName: !Ref 'CodeArtifactDomainName'
-        CodeArtifactRepositoryName: !Ref 'CodeArtifactRepositoryName'
-      TimeoutInMinutes: 5
-
-  
-  :
+  CiArtifactBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
