@@ -45,7 +45,8 @@ Resources:
         CodeArtifactRepositoryName: !Ref 'CodeArtifactRepositoryName'
       TimeoutInMinutes: 5
 
-  CiArtifactBucket:
+  
+  :
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
@@ -73,127 +74,6 @@ Resources:
                 - !Sub arn:aws:iam::${AllowedDeployAccount4}:root
                 - !Sub arn:aws:iam::${AllowedDeployAccount5}:root
 
-# Progetti CI jar
-  ParentPomCI:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub 'https://s3.amazonaws.com/${PnCiCdTemplatesBucketName}/ci/builders/mvn-jar-codebuild.yaml'
-      Parameters:
-        GitHubProjectName: 'pn-parent'
-        CodeArtifactDomainName: !Ref 'CodeArtifactDomainName'
-        CodeArtifactRepositoryName: !Ref 'CodeArtifactRepositoryName'
-        NotificationSNSTopic: !Ref 'NotificationSNSTopic'
-      TimeoutInMinutes: 5
-  PnModelCI:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub 'https://s3.amazonaws.com/${PnCiCdTemplatesBucketName}/ci/builders/mvn-jar-codebuild.yaml'
-      Parameters:
-        GitHubProjectName: 'pn-model'
-        CodeArtifactDomainName: !Ref 'CodeArtifactDomainName'
-        CodeArtifactRepositoryName: !Ref 'CodeArtifactRepositoryName'
-        NotificationSNSTopic: !Ref 'NotificationSNSTopic'
-      TimeoutInMinutes: 5
-  PnCommonsCI:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub 'https://s3.amazonaws.com/${PnCiCdTemplatesBucketName}/ci/builders/mvn-jar-codebuild.yaml'
-      Parameters:
-        GitHubProjectName: 'pn-commons'
-        CodeArtifactDomainName: !Ref 'CodeArtifactDomainName'
-        CodeArtifactRepositoryName: !Ref 'CodeArtifactRepositoryName'
-        NotificationSNSTopic: !Ref 'NotificationSNSTopic'
-      TimeoutInMinutes: 5
-# Progetti docker
-  PnDeliveryCI:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub 'https://s3.amazonaws.com/${PnCiCdTemplatesBucketName}/ci/builders/mvn-docker-codebuild.yaml'
-      Parameters:
-        GitHubProjectName: 'pn-delivery'
-        CodeArtifactDomainName: !Ref 'CodeArtifactDomainName'
-        CodeArtifactRepositoryName: !Ref 'CodeArtifactRepositoryName'
-        NotificationSNSTopic: !Ref 'NotificationSNSTopic'
-        AllowedDeployAccount1: !Ref AllowedDeployAccount1
-        AllowedDeployAccount2: !Ref AllowedDeployAccount2
-        AllowedDeployAccount3: !Ref AllowedDeployAccount3
-        AllowedDeployAccount4: !Ref AllowedDeployAccount4
-        AllowedDeployAccount5: !Ref AllowedDeployAccount5
-      TimeoutInMinutes: 5
-  PnDeliveryPushCI:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub 'https://s3.amazonaws.com/${PnCiCdTemplatesBucketName}/ci/builders/mvn-docker-codebuild.yaml'
-      Parameters:
-        GitHubProjectName: 'pn-delivery-push'
-        CodeArtifactDomainName: !Ref 'CodeArtifactDomainName'
-        CodeArtifactRepositoryName: !Ref 'CodeArtifactRepositoryName'
-        NotificationSNSTopic: !Ref 'NotificationSNSTopic'
-        AllowedDeployAccount1: !Ref AllowedDeployAccount1
-        AllowedDeployAccount2: !Ref AllowedDeployAccount2
-        AllowedDeployAccount3: !Ref AllowedDeployAccount3
-        AllowedDeployAccount4: !Ref AllowedDeployAccount4
-        AllowedDeployAccount5: !Ref AllowedDeployAccount5
-      TimeoutInMinutes: 5
-  PnExternalChannelsCI:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub 'https://s3.amazonaws.com/${PnCiCdTemplatesBucketName}/ci/builders/mvn-docker-codebuild.yaml'
-      Parameters:
-        GitHubProjectName: 'pn-external-channels'
-        CodeArtifactDomainName: !Ref 'CodeArtifactDomainName'
-        CodeArtifactRepositoryName: !Ref 'CodeArtifactRepositoryName'
-        NotificationSNSTopic: !Ref 'NotificationSNSTopic'
-        AllowedDeployAccount1: !Ref AllowedDeployAccount1
-        AllowedDeployAccount2: !Ref AllowedDeployAccount2
-        AllowedDeployAccount3: !Ref AllowedDeployAccount3
-        AllowedDeployAccount4: !Ref AllowedDeployAccount4
-        AllowedDeployAccount5: !Ref AllowedDeployAccount5
-      TimeoutInMinutes: 5
-# Progetti Lambda
-  PnApikeyAuthorizerLambda:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub 'https://s3.amazonaws.com/${PnCiCdTemplatesBucketName}/ci/builders/nodejs-lambda-codebuild.yaml'
-      Parameters:
-        GitHubProjectName: 'pn-auth-fleet'
-        BaseDir: 'apikeyAuthorizer'
-        CiArtifactBucket: !Ref 'CiArtifactBucket'
-        NotificationSNSTopic: !Ref 'NotificationSNSTopic'
-      TimeoutInMinutes: 5
-  PnJwtAuthorizerLambda:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub 'https://s3.amazonaws.com/${PnCiCdTemplatesBucketName}/ci/builders/nodejs-lambda-codebuild.yaml'
-      Parameters:
-        GitHubProjectName: 'pn-auth-fleet'
-        BaseDir: 'jwtAuthorizer'
-        CiArtifactBucket: !Ref 'CiArtifactBucket'
-        NotificationSNSTopic: !Ref 'NotificationSNSTopic'
-      TimeoutInMinutes: 5
-  PnTokenExchangeLambda:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub 'https://s3.amazonaws.com/${PnCiCdTemplatesBucketName}/ci/builders/nodejs-lambda-codebuild.yaml'
-      Parameters:
-        GitHubProjectName: 'pn-auth-fleet'
-        BaseDir: 'tokenExchange'
-        CiArtifactBucket: !Ref 'CiArtifactBucket'
-        NotificationSNSTopic: !Ref 'NotificationSNSTopic'
-      TimeoutInMinutes: 5
-
-  # Progetti WebApp
-  PnWebapp:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub 'https://s3.amazonaws.com/${PnCiCdTemplatesBucketName}/ci/builders/npm-webapp-codebuild.yaml'
-      Parameters:
-        GitHubProjectName: 'pn-webapp'
-        CodeArtifactDomainName: !Ref 'CodeArtifactDomainName'
-        CodeArtifactRepositoryName: !Ref 'CodeArtifactRepositoryName'
-        CiArtifactBucket: !Ref 'CiArtifactBucket'
-        NotificationSNSTopic: !Ref 'NotificationSNSTopic'
-      TimeoutInMinutes: 5
 
 Outputs:
   CiArtifactBucket:
